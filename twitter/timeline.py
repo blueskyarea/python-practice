@@ -5,29 +5,21 @@ from requests_oauthlib import OAuth1Session
 import json
 import secret
 
-# タイムライン取得用のURL
-#url = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+# URL for keyword search
 url = 'https://api.twitter.com/1.1/search/tweets.json'
 
-# とくにパラメータは無い
-params = {'q': 'マクド', 'count': 10}
+keyword = 'Python'
+params = {'q': keyword, 'count': 10}
 
-# OAuth で GET
+# GET by OAuth
 twitter = OAuth1Session(secret.CK, secret.CS, secret.AT, secret.AS)
 req = twitter.get(url, params = params)
 
 if req.status_code == 200:
-    # レスポンスはJSON形式なので parse する
     timeline = json.loads(req.text)
-    # 各ツイートの本文を表示
-    #metadata = timeline['metadata']
     statuses = timeline['statuses']
-    #print(statuses)
-    st = json.dumps(statuses)
-    dics = json.loads(st)
-    for dic in dics:
+    for each in timeline['statuses']:
         print('-----')
-        print(dic['text'])
+        print(each['text'])
 else:
-    # エラーの場合
     print ("Error: %d" % req.status_code)
