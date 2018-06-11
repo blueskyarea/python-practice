@@ -3,7 +3,7 @@
 
 from requests_oauthlib import OAuth1Session
 import json
-
+import secret
 
 # タイムライン取得用のURL
 #url = "https://api.twitter.com/1.1/statuses/home_timeline.json"
@@ -13,7 +13,7 @@ url = 'https://api.twitter.com/1.1/search/tweets.json'
 params = {'q': 'マクド', 'count': 10}
 
 # OAuth で GET
-twitter = OAuth1Session(CK, CS, AT, AS)
+twitter = OAuth1Session(secret.CK, secret.CS, secret.AT, secret.AS)
 req = twitter.get(url, params = params)
 
 if req.status_code == 200:
